@@ -15,7 +15,7 @@ module.exports = {
      */
     async runInteraction(client, interaction) {
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator))
-            return Error("Vous n'avez pas la permissions nécessaire pour refuser une suggestion.")
+            return Error(interaction, "Vous n'avez pas la permissions nécessaire pour refuser une suggestion.")
 
         const { guild, message } = interaction;
         SuggestDB.findOne({ Guild: guild.id, Message: message.id }, async (err, data) => {
