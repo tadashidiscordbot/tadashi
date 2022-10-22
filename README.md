@@ -34,3 +34,15 @@ Vous avez juste a installer node.js est créer un fichier `.env` et mettre ceci 
 TOKEN=token de votre bot
 DATABASE_URI=lien de votre db mongodb (mongo srv)
 ```
+
+Pour installer les modules, veuillez faire cette commande :
+
+```
+npm i
+```
+
+Ensuite, tous les modules seront installer. Pour executer le bot veuillez faire la commande :
+
+```
+node .
+```
