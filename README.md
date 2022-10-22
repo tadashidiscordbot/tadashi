@@ -25,3 +25,12 @@ Tadashi est sous licence [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.ht
 Si vous désirez vous baser du code de [Tadashi](https://invite.tadashibot.com/) pour créer votre propre bot Discord, veuillez uploader votre nouveau script sur GitHub avec la même [licence](https://github.com/tadashidiscordbot/tadashi/blob/main/LICENSE) et mentionnez l'auteur `DRIXEREX`.
 
 Pour toutes questions ou demandes, vous pouvez rejoindre le [serveur discord](https://discord.gg/HCH8zjtWkJ) ou contacter par mail (support@tadashibot.com)
+
+## Installation
+
+Vous avez juste a installer node.js est créer un fichier `.env` et mettre ceci :
+
+```
+TOKEN=token de votre bot
+DATABASE_URI=lien de votre db mongodb (mongo srv)
+```
