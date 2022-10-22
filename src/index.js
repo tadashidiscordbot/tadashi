@@ -32,6 +32,6 @@ client.red = "#ff0000";
 client.green = "#00FF23";
 client.yellow = "#c5ff00";
 
-client.login(process.env.TOKEN_DEV);
+client.login(process.env.TOKEN);
 
 module.exports = { antijoin };
