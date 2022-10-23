@@ -1,7 +1,7 @@
 const {  EmbedBuilder, PermissionsBitField, ActionRowBuilder, ApplicationCommandOptionType, SelectMenuBuilder } = require("discord.js");
 const { readdirSync } = require('fs');
-const Success = require('../../utils/Success')
-const Error = require('../../utils/Error')
+const { Success } = require('../../utils/Success')
+const { Error } = require('../../utils/Error')
 
 const selects = new ActionRowBuilder()
     .addComponents(

@@ -1,7 +1,7 @@
 const { EmbedBuilder, PermissionsBitField, ApplicationCommandOptionType } = require("discord.js");
 const levelDB = require('../../models/Level')
-const Success = require('../../utils/Success')
-const Error = require('../../utils/Error')
+const { Success } = require('../../utils/Success')
+const { Error } = require('../../utils/Error')
 
 module.exports = {
     name: "leaderboard",

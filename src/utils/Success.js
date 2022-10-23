@@ -7,4 +7,4 @@ function Success(interaction, description) {
             .setColor("Green")], ephemeral: true })
 } 
 
-module.exports = Success;
+module.exports = { Success };

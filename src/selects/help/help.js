@@ -23,11 +23,8 @@ module.exports = {
             await interaction.update({ embeds: [
                 new EmbedBuilder()
                     .setTitle("🔨 Commandes de modération")
-                    .setDescription(`${commands.map(cmd => `**${cmd.name}** : ${cmd.description}`).join("\n")}`)
+                    .setDescription(`> ${commands.map(cmd => `**${cmd.name}** : ${cmd.description}`).join("\n> ")}`)
                     .setColor(client.color)
-                    .setFooter({ 
-                        text: "Commande synchronisé via la collection"
-                     })
                 ]
             })
         }
@@ -37,11 +34,8 @@ module.exports = {
             await interaction.update({ embeds: [
                 new EmbedBuilder()
                     .setTitle("⚙️ Commandes de utilités")
-                    .setDescription(`${commands.map(cmd => `**${cmd.name}** : ${cmd.description}`).join("\n")}`)
+                    .setDescription(`> ${commands.map(cmd => `**${cmd.name}** : ${cmd.description}`).join("\n> ")}`)
                     .setColor(client.color)
-                    .setFooter({ 
-                        text: "Commande synchronisé via la collection"
-                     })
                 ]
             })
         }
@@ -51,12 +45,8 @@ module.exports = {
             await interaction.update({ embeds: [
                 new EmbedBuilder()
                     .setTitle("🥳 Commandes de fun")
-                    .setDescription(`${commands.map(cmd => `**${cmd.name}** : ${cmd.description}`).join("\n")}`)
+                    .setDescription(`> ${commands.map(cmd => `**${cmd.name}** : ${cmd.description}`).join("\n> ")}`)
                     .setColor(client.color)
-                    .setFooter({ 
-                        text: "Commande synchronisé via la collection"
-                     })
-            
                 ]
             })
         }

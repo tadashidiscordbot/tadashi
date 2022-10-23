@@ -1,6 +1,6 @@
 const {  EmbedBuilder, ApplicationCommandOptionType, ActionRowBuilder, PermissionsBitField, ButtonBuilder, ButtonStyle } = require("discord.js");
-const Error = require('../../utils/Error')
-const Success = require('../../utils/Success')
+const { Error } = require('../../utils/Error')
+const { Success } = require('../../utils/Success')
 
 module.exports = {
     name: "activity",

@@ -1,5 +1,6 @@
-const {  EmbedBuilder, PermissionsBitField, ApplicationCommandOptionType } = require("discord.js");
+const { ApplicationCommandOptionType } = require("discord.js");
 const DB = require('../../models/AFKModel')
+const { Success } = require('../../utils/Success')
 
 module.exports = {
     name: "afk",
@@ -32,9 +33,6 @@ module.exports = {
         const { guild, options, user, createdTimestamp } = interaction;
         const afkStatus = options.getString("reason") || "Aucune raison";
 
-        const embed = new EmbedBuilder()
-            .setAuthor({ name: `${user.username}`, iconURL: `${user.displayAvatarURL({ dynamic: true })}` })
-
         if(options.getSubcommand() === "set") {
             await DB.findOneAndUpdate(
                 { GuildID: guild.id, UserID: user.id },
@@ -42,15 +40,13 @@ module.exports = {
                 { new: true, upsert: true }
             )
 
-            embed.setColor(client.green).setDescription("Le mode AFK vous as été attribué avec succès !")
-            interaction.reply({ embeds: [embed], ephemeral: true })
+            Success(interaction, "Le mode AFK vous as été attribué avec succès !")
         }
 
         if(options.getSubcommand() === "remove") {
             await DB.deleteOne({ GuildID: guild.id, UserID: user.id })
 
-            embed.setColor(client.red).setDescription("Le mode AFK vous as été retiré avec succès !")
-            interaction.reply({ embeds: [embed], ephemeral: true }) 
+            Success(interaction, "Le mode AFK vous as été retiré avec succès !")
         }
     }
 };

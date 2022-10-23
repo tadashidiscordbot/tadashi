@@ -6,8 +6,8 @@ const {
     ButtonStyle,
 } = require("discord.js");
 const SuggestDB = require("../../models/SuggestDB");
-const Success = require('../../utils/Success')
-const Error = require('../../utils/Error')
+const { Success } = require('../../utils/Success')
+const { Error } = require('../../utils/Error')
 const channelData = require('../../models/suggestChannel')
 
 module.exports = {

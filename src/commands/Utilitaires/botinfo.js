@@ -1,6 +1,8 @@
-const {  EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require('discord.js');
+const {  EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } = require('discord.js');
 const djsv = require('../../../package.json')
 const botversion = require('../../version.json')
+const { connection } = require("mongoose");
+const os = require('os')
 
 const button = new ActionRowBuilder()
     .addComponents(
@@ -8,6 +10,19 @@ const button = new ActionRowBuilder()
             .setURL("https://discord.com/oauth2/authorize?client_id=991789507592589413&permissions=8&scope=bot%20applications.commands")
             .setLabel('Inviter Tadashi')
             .setStyle(ButtonStyle.Link)
+            .setEmoji("<:certified_dev:1025082247298154556>"),
+
+        new ButtonBuilder()
+            .setURL("https://tadashibot.com/")
+            .setLabel("Mon site internet")
+            .setStyle(ButtonStyle.Link)
+            .setEmoji("💻"),
+
+        new ButtonBuilder()
+            .setURL("https://discord.gg/HCH8zjtWkJ")
+            .setLabel("Serveur support")
+            .setStyle(ButtonStyle.Link)
+            .setEmoji("👮")
     )
 
 module.exports = {
@@ -18,51 +33,53 @@ module.exports = {
     category: "⚙️ Utilités",
     permissions: ["UseApplicationCommands"],
     async runInteraction (client, interaction) {
-        const arr = [1, 2, 3, 4, 5, 6, 9, 7, 8, 9, 10];
-        arr.reverse();
-        const used = process.memoryUsage().heapUsed / 1024 / 1024;
         let guildsCount = await client.guilds.fetch();
         let usersCount = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
-        let totalSeconds = (client.uptime / 1000);
-        let days = Math.floor(totalSeconds / 86400);
-        totalSeconds %= 86400;
-        let hours = Math.floor(totalSeconds / 3600);
-        totalSeconds %= 3600;
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = Math.floor(totalSeconds % 60);
+        const getChannelTypeSize = type => client.channels.cache.filter(channel => type.includes(channel.type)).size;
 
-        const embed1 = new  EmbedBuilder()
-            .setTitle("Informations du bot")
-            .setDescription("```Chargement en cours, veuillez patientez..```")
-            .setColor(client.color)
-            .setFooter({
-                text: "Botinfo",
-            })
-
-        const tryPong = await interaction.reply({ embeds: [embed1], fetchReply: true })
+        const status = [
+            "Déconnecter",
+            "Connecter",
+            "En cours de connexion",
+            "En cours de déconnexion"
+        ];
 
         const embed = new  EmbedBuilder()
-            .setTitle("Informations")
-            .setDescription("À noter que le ping du bot n'est pas significatif, pour avoir le vrai ping, veuillez faire la commande slash `/ping` !")
-            .addFields(
-                { name: "Développeur :", value: "`drixerex#3579`", inline: true },
-                { name: "Nom du robot :", value: `\`${client.user.username}\``, inline: true },
-                { name: "Tag du robot :", value: `\`${client.user.discriminator}\``, inline: true },
-                { name: "Identifiant du robot :", value: `\`${client.user.id}\``, inline: true },
-                { name: "Base de données :", value: "`MongoDB`", inline: true },
-                { name: "Framework de développement :", value: "`discord.js (NodeJS)`", inline: true },
-                { name: "Version de discord.js :", value: `\`${djsv.dependencies['discord.js']}\``.replace('^', ''), inline: true },
-                { name: "Version de NodeJS :", value: `\`${process.version}\``.replace('^', ''), inline: true },
-                { name: "Version du bot", value: `\`${botversion.version}\``, inline: true  },
-                { name: "Uptime :", value: `\`${days}j ${hours}h ${minutes}m ${seconds}s\``.replace('^', ''), inline: true },
-                { name: "Serveurs :", value: `\`${guildsCount.size}\``, inline: true },
-                { name: "Utilisateurs :", value: `\`${usersCount}\``, inline: true },
-                { name: "Date de création :", value: "`30/06/2022` ||<:pepe_ok:1025082277962723449> Anniversaire de DRIXEREX||" },
-                { name: "Hébergeur :", value: `\`OVHCloud\``, inline: true },
-                { name: "Système :", value: `\`Ubuntu 20.04\``, inline: true },
-                { name: "RAM utilisé :", value: `\`${(process.memoryUsage().rss/1024/1024).toFixed(2)}MB/16 384MB\``, inline: true },
-                
+            .setDescription(
+                `
+                **__🤖・Identité :__**
+                > **Nom d'utilisateur :** ${client.user} \`${client.user.tag}\`
+                > **Tag :** ${client.user.discriminator}
+                > **ID :** ${client.user.id}
+                > **Date de création :** <t:${parseInt(client.user.createdTimestamp / 1000)}:f> (<t:${parseInt(client.user.createdTimestamp / 1000)}:R>)
+
+                **__<:certified_dev:1025082247298154556>・Développeur :__**
+                > **Nom :** <@923969347276398653> \`drixerex#3579\`
+                > **ID :** 923969347276398653
+
+                **__📊・Statistiques du bot :__**
+                > **Démarré :** <t:${parseInt(client.readyTimestamp / 1000)}:f> (<t:${parseInt(client.readyTimestamp / 1000)}:R>)
+                > **Serveurs :** ${guildsCount.size}
+                > **Utilisateurs :** ${usersCount}
+                > **Salons :** ${client.channels.cache.size}
+                > **Ping avec l'API de Discord :** ${client.ws.ping}ms
+                > **Status de la base de données :** ${status[connection.readyState]} (MongoDB)
+            
+                **__🖥️・Informations techniques :__** 
+                > **Hébergeur :** Hetzner
+                > **Système d'exploitation :** ${os.type().replace("Windows_NT", "Windows").replace("Darwin", "macOS")}
+                > **Processeur :** ${os.cpus()[0].model}
+                > **Mémoire utilisé :** ${(process.memoryUsage().rss/1024/1024).toFixed(2)}MB/16 384MB (${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}%)
+                > **Node.JS :** ${process.version}
+                > **Discord.JS** : v${djsv.dependencies['discord.js']}
+
+                **__🔗 Liens :__**
+                > **Inviter tadashi :** [Invitez moi !](https://discord.com/oauth2/authorize?client_id=991789507592589413&permissions=8&scope=bot%20applications.commands)
+                > **Site internet :** [Visiter mon site internet !](https://tadashibot.com)
+                > **Développeur :** [drixerex#3579](https://drixerex.xyz/)
+                `.replace("^", "")
             )
+            .setAuthor({ name: 'Informations du bot', iconURL: `${client.user.displayAvatarURL()}`, url: 'https://tadashibot.com' })
             .setTimestamp()
             .setThumbnail(client.user.displayAvatarURL({dynamic: true}))
             .setColor(client.color)
@@ -70,6 +87,6 @@ module.exports = {
                 text: "©️ 2022 DRIXEREX",
             })
 
-        tryPong.edit({ content: ' ', embeds: [embed], components: [button] })
+        interaction.reply({ embeds: [embed], components: [button] })
     }
  }

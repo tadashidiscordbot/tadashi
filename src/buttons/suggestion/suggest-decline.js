@@ -5,8 +5,8 @@ const {
     Colors,
 } = require("discord.js");
 const SuggestDB = require("../../models/SuggestDB");
-const Success = require('../../utils/Success')
-const Error = require('../../utils/Error')
+const { Success } = require('../../utils/Success')
+const { Error } = require('../../utils/Error')
 
 module.exports = {
     customId: "suggest-decline",
@@ -14,7 +14,7 @@ module.exports = {
      * @param {ButtonInteraction} interaction
      */
     async runInteraction(client, interaction) {
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator))
+        if (!interaction.member.permissions.has("ModerateMembers"))
             return Error(interaction, "Vous n'avez pas la permissions nécessaire pour refuser une suggestion.")
 
         const { guild, message } = interaction;

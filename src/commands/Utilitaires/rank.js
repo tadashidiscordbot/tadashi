@@ -1,8 +1,8 @@
 const { EmbedBuilder, AttachmentBuilder, PermissionsBitField, ApplicationCommandOptionType } = require("discord.js");
 const levelDB = require('../../models/Level')
 const Canvacord = require('canvacord')
-const Success = require('../../utils/Success')
-const Error = require('../../utils/Error')
+const { Success } = require('../../utils/Success')
+const { Error } = require('../../utils/Error')
 
 module.exports = {
     name: "rank",

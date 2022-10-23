@@ -1,4 +1,4 @@
-const DB = require('../../models/welcomeChannelModel')
+const DB = require('../../models/welcomeData')
 const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
@@ -7,20 +7,27 @@ module.exports = {
     async execute(client, member) {
         DB.findOne({ Guild: member.guild.id }, async(e, data) => {
             if(!data) return;
-
-            const channel = member.guild.channels.cache.get(data.Channel);
+            const channel = member.guild.channels.cache.get(data.channelId);
+            if(!channel) return;
 
             const embed = new EmbedBuilder()
                 .setColor(client.color)
                 .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({ dynamic: true }) })
-                .setDescription(`Bienvenue ${member.user} dans le serveur ! Passe un bon moment sur ce serveur ! 😜\n\nCe serveur est maintenant à **${member.guild.memberCount}** membres grâce à toi !`)
+                .setDescription(
+                `Bienvenue ${member.user} dans le serveur ! Passe un bon moment sur ce serveur ! 😜
+                
+                Ce serveur est maintenant à **${member.guild.memberCount}** membres grâce à toi !
+                `
+                )
                 .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
 
             channel.send({ content: `${member.user}`, embeds: [embed] })
 
-            if(data.Role) {
-                await member.roles.add(data.Role)
+            if(data.role) {
+                const role = member.guild.roles.cache.get(data.Role)
+                if(!role) return;
+                await member.roles.add(role)
             }
         })
 

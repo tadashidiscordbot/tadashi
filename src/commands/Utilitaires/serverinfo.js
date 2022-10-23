@@ -1,4 +1,4 @@
-const {  EmbedBuilder, PermissionsBitField, ChannelType } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const moment = require('moment');
 
 module.exports = {
@@ -9,23 +9,25 @@ module.exports = {
     category: "⚙️ Utilités",
     permissions: ["UseApplicationCommands"],
     async runInteraction (client, interaction) {
+        const { guild } = interaction;
         await interaction.guild.fetch();
+
         const embed = new EmbedBuilder()
             .setTitle(`Informations du serveur \`${interaction.guild.name}\``)
-            .addFields(
-                { name: "Nom du serveur", value: `\`${interaction.guild.name}\``, inline: true },
-                { name: "Propriétaire du serveur", value: `<@${(await interaction.guild.fetchOwner()).user.id}>`, inline: true },
-                { name: "ID du serveur", value: `\`${interaction.guild.id}\``, inline: true },
-                { name: "Membres", value: `
-                \`${interaction.guild.memberCount}\` membres en total
-                \`${interaction.guild.members.cache.filter(member => !member.user.bot).size}\` humains
-                \`${interaction.guild.members.cache.filter(member => member.user.bot).size}\` bots`,
-                inline: true },
-                { name: "Création du serveur", value: `\`${moment(interaction.guild.createdAt).format('[Le] DD/MM/YYYY [à] HH:mm:ss')}\``, inline: true },
-                { name: "Nombre de boost", value: `\`${interaction.guild.premiumSubscriptionCount}\``.replace("0", "Aucun"), inline: true },
-                { name: "Tier de boost", value: `\`${interaction.guild.premiumTier}\``.replace("0", "0 (Aucun tier)").replace("TIER_", ""), inline: true },
-                { name: "Emojis", value: `\`${interaction.guild.emojis.cache.size}\` emojis totales\n\`${interaction.guild.emojis.cache.filter(emoji => !emoji.animated).size}\` emojis normal\n\`${interaction.guild.emojis.cache.filter(emoji => emoji.animated).size}\` emojis animés`, inline: true },
-                { name: `Rôle(s) (${interaction.guild.roles.cache.size})`, value: `${interaction.guild.roles.cache.map(role => role.toString()).join(', ')}`, inline: true }
+            .setDescription(
+                `
+                **__🖥️・Informations sur le serveur :__**
+                > **Nom du serveur :** ${guild.name}
+                > **ID du serveur :** ${guild.id}
+                > **Propriétaire :** <@${(await guild.fetchOwner()).user.id}> \`${(await guild.fetchOwner()).user.tag}\`
+                > **Date de création :**<t:${parseInt(guild.createdAt / 1000)}:f> (<t:${parseInt(guild.createdAt / 1000)}:R>)
+                
+                **__📊・Statistiques du serveur :__** 
+                > **Membres :** ${guild.memberCount}
+                > **Niveau de boost :** ${guild.premiumTier} (${guild.premiumSubscriptionCount} boost(s))
+                > **Emojis :** ${guild.emojis.cache.size}
+                > **Rôles :** (${guild.roles.cache.size}) : ${guild.roles.cache.map(role => role.toString()).join(', ')}
+                `.replace("TIER_", ""),
             )
             .setFooter({
                 text: "Serverinfo",

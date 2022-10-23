@@ -1,6 +1,6 @@
 const {  AttachmentBuilder, ApplicationCommandOptionType, PermissionsBitField, EmbedBuilder } = require("discord.js");
 const QRCode = require('qrcode');
-const Error = require('../../utils/Error')
+const { Error } = require('../../utils/Error')
 
 module.exports = {
     name: "qr-code",

@@ -1,5 +1,5 @@
 const { EmbedBuilder, InteractionType } = require('discord.js')
-const Error = require('../../utils/Error')
+const { Error } = require('../../utils/Error')
 const Logger = require('../../utils/Logger')
 
 module.exports = {

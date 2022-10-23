@@ -11,7 +11,7 @@ module.exports = {
             if(err) throw err;
             if(data) {
                 data.delete().then(
-                    message.reply({ embeds: [new EmbedBuilder().setColor(client.green).setAuthor({ name: `${message.author.username}`, iconURL: `${message.author.displayAvatarURL({ dynamic: true })}` }).setDescription(`${client.yes} Le mode AFK vous a été enlevé car il me semble que vous n'êtes plus AFK <:pepe_ok:1025082277962723449>`)] })
+                    message.reply({ embeds: [new EmbedBuilder().setColor(client.green).setAuthor({ name: `${message.author.username}`, iconURL: `${message.author.displayAvatarURL({ dynamic: true })}` }).setDescription(`✅ Le mode AFK vous a été enlevé car il me semble que vous n'êtes plus AFK <:pepe_ok:1025082277962723449>`)] })
                 )
 
             }

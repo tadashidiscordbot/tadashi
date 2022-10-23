@@ -24,18 +24,21 @@ module.exports = {
                 text: "Userinfo",
                 iconURL: member.user.displayAvatarURL({dynamic: true})
             })
-            .addFields(
-                { name: "Nom d'utilisateur :", value: `\`${member.user.username}\` ${member}`, inline: true },
-                { name: "Tag :", value: `\`${member.user.discriminator}\``, inline: true },
-                { name: "Nom complet :", value: `\`${member.user.tag}\``, inline: true },
-                { name: "Identifiant :", value: `\`${member.user.id}\``, inline: true },
-                { name: "Robot :", value: `\`${member.user.bot ? "Oui" : "Non"}\``, inline: true },
-                { name: "Status :", value: `\`${member ? member.presence ? member.presence.status : "Hors ligne" : "Inconnu"}\``.replace("dnd", "Ne pas déranger").replace("online", "En ligne").replace("idle", "Inactif").replace("offline", "Hors ligne"), inline: true },
-                { name: "Création de compte :", value: `<t:${parseInt(member.user.createdTimestamp / 1000)}:f> (<t:${parseInt(member.user.createdTimestamp / 1000)}:R>)`, inline: true },
-                { name: "A rejoins le serveur :", value: `<t:${parseInt(member.joinedTimestamp / 1000)}:f> (<t:${parseInt(member.joinedTimestamp / 1000)}:R>)`, inline: true },
-                { name: "Boost le serveur :", value: `\`${member.premiumSince ? "Oui" : "Non"}\``, inline: true },
-                { name: "Surnom :", value: `\`${member.nickname ? member.nickname : "Aucun"}\``, inline: true },
-                { name: `Rôles (${member.roles.cache.size}) :`, value: `${member.roles.cache.map(role => role).join(', ')}`, inline: true }
+            .setDescription(
+                `
+                **__👤・Informations sur l'utilisateur :__**
+                > **Nom d'utilisateur :** ${member.user} \`${member.user.tag}\`
+                > **Tag :** ${member.user.discriminator}
+                > **ID :** ${member.user.id}
+                > **Robot :** ${member.user.bot ? "Oui" : "Non"}
+                > **Création de compte :** <t:${parseInt(member.user.createdTimestamp / 1000)}:f> (<t:${parseInt(member.user.createdTimestamp / 1000)}:R>)
+                
+                **__🖥️・Informations relatives à ${interaction.guild.name} :__**
+                > **A rejoint le serveur le :** <t:${parseInt(member.joinedTimestamp / 1000)}:f> (<t:${parseInt(member.joinedTimestamp / 1000)}:R>)
+                > **Boost le serveur :** ${member.premiumSince ? "Oui" : "Non"}
+                > **Surnom :** ${member.nickname ? member.nickname : "Aucun"}
+                > Rôles (${member.roles.cache.size}) : ${member.roles.cache.map(role => role).join(', ')}
+                `
             )
             .setTimestamp()
         	.setImage(await (await client.users.fetch(member.user.id, {force: true})).bannerURL({dynamic: true, size: 4096}))

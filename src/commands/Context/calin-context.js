@@ -27,7 +27,7 @@ module.exports = {
 
         if(target.id === client.user.id) {
             const embed2 = new  EmbedBuilder()
-            .setDescription(`❤️ ${interaction.user} me donne un gros calin ❤️`)
+            .setDescription(`❤️ ${interaction.user} me fait un gros calin ❤️`)
             .setColor(client.yellow)  
             .setTimestamp()
             .setImage(sub)

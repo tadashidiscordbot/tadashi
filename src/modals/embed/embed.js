@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js')
-const Success = require('../../utils/Success')
-const Error = require('../../utils/Error')
+const { Success } = require('../../utils/Success')
+const { Error } = require('../../utils/Error')
 
 module.exports = {
     name: "embed",

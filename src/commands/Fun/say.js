@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
-const Success = require('../../utils/Success')
+const { Success } = require('../../utils/Success')
 
 module.exports = {
     name: "say",

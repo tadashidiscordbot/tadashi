@@ -7,4 +7,4 @@ function Error(interaction, description) {
             .setColor("Red")], ephemeral: true })
 } 
 
-module.exports = Error;
+module.exports = { Error };

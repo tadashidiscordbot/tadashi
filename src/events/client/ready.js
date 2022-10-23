@@ -18,7 +18,7 @@ module.exports = {
 
         setInterval(() => {
             const status = statuses[Math.floor(Math.random()*statuses.length)]
-            client.user.setPresence({ activities: [{ name: `${status}`, type: ActivityType.Playing }] })
+            client.user.setPresence({ activities: [{ name: `${status}`, type: ActivityType.Watching }] })
         }, 5000)
 
         client.application.commands.set(client.commands.map(cmd => cmd));
