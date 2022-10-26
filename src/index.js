@@ -33,7 +33,6 @@ client.red = "#ff0000";
 client.green = "#00FF23";
 client.yellow = "#c5ff00";
 
-// client.login(cfg.token);
-client.login(cfg.token_dev)
+client.login(cfg.token)
 
 module.exports = { antijoin };
