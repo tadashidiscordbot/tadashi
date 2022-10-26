@@ -1,5 +1,5 @@
 const {  EmbedBuilder, ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
-const Success = require("../../utils/Success")
+const { Success } = require("../../utils/Success")
 const { Error } = require('../../utils/Error')
 
 module.exports = {

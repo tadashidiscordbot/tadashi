@@ -1,15 +1,12 @@
-// const DB = require('../../models/protections')
+const DB = require('../../models/massPingProtect')
 
 module.exports = {
     name: "messageCreate",
     once: false,
     async execute(client, message) {
-        return
-        const data = DB.findOne({ Guild: message.guild.id }).catch(err => console.log(err))
+        const data = await DB.findOne({ Guild: message.guild.id }).catch(err => console.log(err))
 
         if(!data) return
-        if(data.AntiMassPing === false) return;
-
         if(message.author.bot) return;
 
         let content = message.content.split(" ")
@@ -22,7 +19,9 @@ module.exports = {
 
         if(count > 5) {
             await message.delete()
-            await message.channel.send(`<:tadashi:1025083076159737937> \`⚠️ Attention :\` ${message.author}, vous mentionnez beaucoup de fois sur un seul message !`)
+            if(message.member.permissions.has("MODERATE_MEMBERS")) return;
+
+            try {await message.member.send(`Avertissement :\n> Le mass ping n'est pas autorisé dans le serveur **${message.guild.name}**.`)} catch(err) {}
         }
     }
 }

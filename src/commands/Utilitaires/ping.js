@@ -20,17 +20,16 @@ module.exports = {
         const tryPong = await interaction.reply({ content: "Calcul du ping... Un instant !", fetchReply: true });
     
         const embed = new EmbedBuilder()
-            .setTitle("Pong 🏓 !")
-            .setThumbnail(client.user.displayAvatarURL({dynamic: true}))
-            .addFields(
-                { name: "Latence API", value: `\`\`\`${client.ws.ping}ms\`\`\``, inline: true },
-                { name: "Latence Bot", value: `\`\`\`${tryPong.createdTimestamp - interaction.createdTimestamp}ms\`\`\``, inline: true }
+            .setTitle(`Latence du bot \`${client.user.username}\``)
+            .setDescription(
+                `
+                > **Latence du bot :** ${tryPong.createdTimestamp - interaction.createdTimestamp}ms
+                > **Latence de la communication de discord et du bot (API) :** ${client.ws.ping}ms
+                > **Localisation du serveur :** États-Unis (Ashburn)
+                `
             )
+            .setAuthor({ name: "Latence du bot", url: "https://tadashibot.com/", iconURL: `${client.user.displayAvatarURL()}` })
             .setTimestamp()
-            .setFooter({
-                text: client.footer,
-                iconURL: interaction.user.displayAvatarURL({dynamic: true})
-            })
             .setColor(client.color)
 
         tryPong.edit({ content: null, embeds: [embed], components: [button] });

@@ -4,17 +4,16 @@ module.exports = {
     customId: "reload-ping",
     async runInteraction(client, interaction) {
         const embed = new EmbedBuilder()
-        .setTitle("Pong 🏓 !")
-        .setThumbnail(client.user.displayAvatarURL({dynamic: true}))
-        .addFields(
-            { name: "Ping", value: `\`\`\`${client.ws.ping}ms\`\`\`` },
-        )
-        .setTimestamp()
-        .setFooter({
-            text: client.footer,
-            iconURL: interaction.user.displayAvatarURL({dynamic: true})
-        })
-        .setColor(client.color)
+            .setTitle(`Latence du bot \`${client.user.username}\``)
+            .setDescription(
+                `
+                > **Latence de la communication de discord et du bot (API) :** ${client.ws.ping}ms
+                > **Localisation du serveur :** États-Unis (Ashburn)
+                `
+            )
+            .setTimestamp()
+            .setColor(client.color)
+            .setAuthor({ name: "Latence du bot", url: "https://tadashibot.com/", iconURL: `${client.user.displayAvatarURL()}` })
 
         interaction.update({ content: null, embeds: [embed] });
     }

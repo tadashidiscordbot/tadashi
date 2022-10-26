@@ -1,8 +1,9 @@
 const { Client, Collection } = require('discord.js');
 const dotenv = require('dotenv'); dotenv.config();
 const mongoose = require("mongoose");
-const client = new Client({ intents: 3243773 });
+const client = new Client({ intents: 3276799 });
 const Logger = require('./utils/Logger');
+const cfg = require('../config.json')
 const { DiscordTogether } = require('discord-together');
 
 ['commands', 'buttons', 'modals', 'selects'].forEach(x => client[x] = new Collection());
@@ -17,7 +18,7 @@ process.on('warning', (...args) => Logger.warn(...args));
 
 module.exports = client;
 
-mongoose.connect(process.env.DATABASE_URI, {
+mongoose.connect(cfg.database_uri, {
     autoIndex: false,
     maxPoolSize: 10,
     serverSelectionTimeoutMS: 5000,
@@ -32,6 +33,7 @@ client.red = "#ff0000";
 client.green = "#00FF23";
 client.yellow = "#c5ff00";
 
-client.login(process.env.TOKEN);
+// client.login(cfg.token);
+client.login(cfg.token_dev)
 
 module.exports = { antijoin };

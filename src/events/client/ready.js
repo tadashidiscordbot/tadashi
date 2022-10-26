@@ -13,6 +13,7 @@ module.exports = {
             `/help`,
             `${guildsCount.size} serveurs`,
             `Tadashi V2 !`,
+            `Ping : ${client.ws.ping}ms`,
             `https://invite.tadashibot.com/`,
         ]
 

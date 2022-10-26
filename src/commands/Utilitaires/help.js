@@ -1,6 +1,4 @@
-const {  EmbedBuilder, PermissionsBitField, ActionRowBuilder, ApplicationCommandOptionType, SelectMenuBuilder } = require("discord.js");
-const { readdirSync } = require('fs');
-const { Success } = require('../../utils/Success')
+const {  EmbedBuilder, ActionRowBuilder, ApplicationCommandOptionType, SelectMenuBuilder } = require("discord.js");
 const { Error } = require('../../utils/Error')
 
 const selects = new ActionRowBuilder()

@@ -7,6 +7,10 @@ function error(content) {
     write(content, 'black', 'bgRed', 'ERROR', true);
 }
 
+function shards(content) {
+    write(content, 'black', 'bgBlue', 'SHARD', true);
+}
+
 function used(content, cmdname) {
     write(content, 'black', 'bgBlue', `CMD - ${cmdname}`, true);
 }
@@ -52,4 +56,4 @@ function write(content, tagColor, bgTagColor, tag, error = false) {
     stream.write(item);
 }
 
-module.exports = { used, error, warn, command, event, typo, client, db, slash };
+module.exports = { shards, used, error, warn, command, event, typo, client, db, slash };

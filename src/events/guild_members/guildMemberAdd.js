@@ -5,31 +5,31 @@ module.exports = {
     name: "guildMemberAdd",
     once: false,
     async execute(client, member) {
-        DB.findOne({ Guild: member.guild.id }, async(e, data) => {
-            if(!data) return;
-            const channel = member.guild.channels.cache.get(data.channelId);
-            if(!channel) return;
+        const data = await DB.findOne({ Guild: member.guild.id })
 
-            const embed = new EmbedBuilder()
-                .setColor(client.color)
-                .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({ dynamic: true }) })
-                .setDescription(
-                `Bienvenue ${member.user} dans le serveur ! Passe un bon moment sur ce serveur ! 😜
-                
-                Ce serveur est maintenant à **${member.guild.memberCount}** membres grâce à toi !
-                `
-                )
-                .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-                .setTimestamp()
+        if(!data) return;
+        const channel = member.guild.channels.cache.get(data.channelId);
+        if(!channel) return;
 
-            channel.send({ content: `${member.user}`, embeds: [embed] })
+        const embed = new EmbedBuilder()
+            .setColor(client.color)
+            .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({ dynamic: true }) })
+            .setDescription(
+            `Bienvenue ${member.user} dans le serveur ! Passe un bon moment sur ce serveur ! 😜
+            
+            Ce serveur est maintenant à **${member.guild.memberCount}** membres grâce à toi !
+            `
+            )
+            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
 
-            if(data.role) {
-                const role = member.guild.roles.cache.get(data.Role)
-                if(!role) return;
-                await member.roles.add(role)
-            }
-        })
+        channel.send({ content: `${member.user}`, embeds: [embed] })
+
+        if(data.role) {
+            const role = member.guild.roles.cache.get(data.role)
+            if(!role) return;
+            await member.roles.add(role)
+        }
 
     }
 };

@@ -1,6 +1,7 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const DB = require('../../models/AFKModel')
 const { Success } = require('../../utils/Success')
+const { Error } = require('../../utils/Error')
 
 module.exports = {
     name: "afk",
@@ -44,7 +45,10 @@ module.exports = {
         }
 
         if(options.getSubcommand() === "remove") {
-            await DB.deleteOne({ GuildID: guild.id, UserID: user.id })
+            const check = await DB.findOne({ GuildID: guild.id, UserID: user.id })
+
+            if(!check) return Error(interaction, "Vous n'êtes pas AFK !")
+            await check.delete()
 
             Success(interaction, "Le mode AFK vous as été retiré avec succès !")
         }

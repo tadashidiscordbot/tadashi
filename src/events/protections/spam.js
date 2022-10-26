@@ -1,17 +1,19 @@
-// const DB = require('../../models/protections')
+const DB = require('../../models/spamProtect')
 const UserMap = new Map()
 
 module.exports = {
     name: "messageCreate",
     once: false,
     async execute(client, message) {
-        return
-        const data = DB.findOne({ Guild: message.guild.id }).catch(err => console.log(err))
-
+        const data = await DB.findOne({ Guild: message.guild.id }).catch(err => console.log(err))
         if(!data) return
-        if(data.AntiSpam === false) return;
 
         if(message.author.bot) return;
+
+        if(data.channelId) {
+            if(message.channel.id === data.channelId) return
+        }
+
         if(UserMap.get(message.author.id)) {
             const UserData = UserMap.get(message.author.id)
             const { lastMessage, timer } = UserData
@@ -37,9 +39,14 @@ module.exports = {
                 msgCount++;
     
                 if(msgCount >= 5) {
-    
-                    await message.channel.send(`<:tadashi:1025083076159737937> \`⚠️ Attention :\` ${message.author}, vous n'êtes pas autoriser à spam sur ce serveur !`)
-    
+                    if(message.member.permissions.has("MODERATE_MEMBERS")) {
+                        try{await message.member.send(`Rappel :\n> Le spam n'est pas autorisé dans le salon ${message.channel}. En tant que modérateur il ne va rien vous arriver. Si ce salon est un salon dédies au spam, veuillez faire la commande slash \`/config antispam (exception_channel: #salon)\` de Tadashi !`)} catch(err) {}
+                        return
+                    } else {
+                        try{await message.member.send(`Avertissement :\n> Le spam n'est pas autorisé dans le salon ${message.channel}.`)} catch(err) {}
+                    }
+        
+
                     const messages = [...(await message.channel.messages.fetch({
                         limit: 5,
                         before: message.id,

@@ -20,7 +20,7 @@ module.exports = {
                 > **Nom du serveur :** ${guild.name}
                 > **ID du serveur :** ${guild.id}
                 > **Propriétaire :** <@${(await guild.fetchOwner()).user.id}> \`${(await guild.fetchOwner()).user.tag}\`
-                > **Date de création :**<t:${parseInt(guild.createdAt / 1000)}:f> (<t:${parseInt(guild.createdAt / 1000)}:R>)
+                > **Date de création :** <t:${parseInt(guild.createdAt / 1000)}:f> (<t:${parseInt(guild.createdAt / 1000)}:R>)
                 
                 **__📊・Statistiques du serveur :__** 
                 > **Membres :** ${guild.memberCount}

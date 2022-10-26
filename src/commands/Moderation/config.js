@@ -2,6 +2,9 @@ const { ApplicationCommandOptionType, ChannelType, EmbedBuilder } = require("dis
 const suggestionChannelData = require('../../models/suggestChannel')
 const annonceChannelData = require('../../models/annonceChannel')
 const poolData = require('../../models/poolChannel')
+const antiLinkData = require('../../models/linksProtect')
+const antiMassPingData = require('../../models/massPingProtect')
+const antiSpamData = require('../../models/spamProtect')
 const welcomeData = require('../../models/welcomeData')
 const { Success } = require('../../utils/Success')
 const { Error } = require('../../utils/Error')
@@ -39,7 +42,19 @@ module.exports = {
                         {
                             name: "Bienvenue",
                             value: "4"
-                        }
+                        },
+                        {
+                            name: "Anti Lien",
+                            value: "5"
+                        },
+                        {
+                            name: "Anti Spam",
+                            value: "6"
+                        },
+                        {
+                            name: "Anti Mass Ping",
+                            value: "7"
+                        },
                     ],
                     required: true
                 }
@@ -118,7 +133,32 @@ module.exports = {
                     required: false
                 }
             ]
-        }
+        },
+        {
+            name: "antispam",
+            description: "Configurer le système de spam",
+            type: ApplicationCommandOptionType.Subcommand,
+            options: [
+                {
+                    name: "exception_salon",
+                    description: "Salon d'exception",
+                    type: ApplicationCommandOptionType.Channel,
+                    channelTypes: [ChannelType.GuildText, ChannelType.GuildAnnouncement],
+                    required: false
+                }
+            ]
+        },
+        {
+            name: "antilink",
+            description: "Configurer le système d'anti lien",
+            type: ApplicationCommandOptionType.Subcommand,
+        },
+        {
+            name: "antimassping",
+            description: "Configurer le système d'anti mass ping",
+            type: ApplicationCommandOptionType.Subcommand,
+        },
+
     ],
     async runInteraction (client, interaction) {
         const { options, guild } = interaction;
@@ -194,6 +234,61 @@ module.exports = {
 
                         > **Salon :** ${guild.channels.cache.get(data.channelId) ? guild.channels.cache.get(data.channelId) : "Salon supprimé ou inconnu"}
                         > **Rôle :** ${guild.roles.cache.get(data.role) ? guild.roles.cache.get(data.role) : "Rôle supprimé ou inconnu"}
+                        `
+                    )
+                    .setColor(client.color)
+
+                interaction.reply({ embeds: [embed] })
+            }
+
+            if(config === "5") {
+                const data = await antiLinkData.findOne({ Guild: guild.id })
+                if(!data) return Error(interaction, "Il n'y a pas de données enregistrés pour la configuration de l'anti lien")
+
+                const embed = new EmbedBuilder()
+                    .setTitle("Informations sur la configuration du système de anti lien")
+                    .setDescription(
+                        `
+                        Informations sur la configuration du système de l'anti lien du serveur ${guild.name}
+
+                        > **Etat :** Activé
+                        `
+                    )
+                    .setColor(client.color)
+
+                interaction.reply({ embeds: [embed] })
+            }
+            
+            if(config === "6") {
+                const data = await antiSpamData.findOne({ Guild: guild.id })
+                if(!data) return Error(interaction, "Il n'y a pas de données enregistrés pour la configuration de l'anti spam")
+
+                const embed = new EmbedBuilder()
+                    .setTitle("Informations sur la configuration du système de anti spam")
+                    .setDescription(
+                        `
+                        Informations sur la configuration du système de l'anti spam du serveur ${guild.name}
+
+                        > **Etat :** Activé
+                        > **Salon dédiés aux spam :** ${guild.channels.cache.get(data.channelId) ? guild.channels.cache.get(data.channelId) : "Aucune ou salon inconnu"}
+                        `
+                    )
+                    .setColor(client.color)
+
+                interaction.reply({ embeds: [embed] })
+            }
+
+            if(config === "7") {
+                const data = await antiMassPingData.findOne({ Guild: guild.id })
+                if(!data) return Error(interaction, "Il n'y a pas de données enregistrés pour la configuration de l'anti mass ping")
+
+                const embed = new EmbedBuilder()
+                    .setTitle("Informations sur la configuration du système de l'anti mass ping")
+                    .setDescription(
+                        `
+                        Informations sur la configuration du système de l'anti mass ping du serveur ${guild.name}
+
+                        > **Etat :** Activé
                         `
                     )
                     .setColor(client.color)
@@ -312,6 +407,71 @@ module.exports = {
                 })
             }
         }
+
+        if(options.getSubcommand() === "antispam") {
+            const channel = options.getChannel("channel")
+
+            if(!channel) {
+                antiSpamData.findOne({ Guild: guild.id }, async (err, data) => {
+                    if(data) {
+                        return Error(interaction, `Le mode anti spam est déjà activé !`)
+                    } else {
+                        new antiSpamData({
+                            Guild: guild.id,
+                        }).save();
+    
+                        return Success(interaction, `Le mode anti spam a été activé avec succès !`)
+                    }
+                })
+            }
+
+            if(channel) {
+                antiSpamData.findOne({ Guild: guild.id }, async (err, data) => {
+                    if(data) {
+                        data.channelId = channel.id
+                        data.save()
+
+                        return Success(interaction, `Le salon d'exception du mode anti spam a été modifié avec succès ! Le salon d'exception est maintenant ${channel} !`)
+                    } else {
+                        new antiSpamData({
+                            Guild: guild.id,
+                            channelId: channel.id
+                        }).save();
+    
+                        return Success(interaction, `Le mode anti spam a été activé avec succès ! L'exception a été enregistré avec succès !`)
+                    }
+                })
+            }
+        }  
+        
+        if(options.getSubcommand() === "antilink") {
+            antiLinkData.findOne({ Guild: guild.id }, async (err, data) => {
+                if(data) {
+                    return Error(interaction, `Le mode anti lien est déjà activé !`)
+                } else {
+                    new antiLinkData({
+                        Guild: guild.id,
+                    }).save();
+
+                    return Success(interaction, `Le mode anti lien a été activé avec succès !`)
+                }
+            })
+        }  
+
+        if(options.getSubcommand() === "antimassping") {
+            antiMassPingData.findOne({ Guild: guild.id }, async (err, data) => {
+                if(data) {
+                    return Error(interaction, `Le mode anti mass ping est déjà activé !`)
+                } else {
+                    new antiMassPingData({
+                        Guild: guild.id,
+                    }).save();
+
+                    return Success(interaction, `Le mode anti mass ping a été activé avec succès !`)
+                }
+            })
+        }  
+        
 
     }
 };

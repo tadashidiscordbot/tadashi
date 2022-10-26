@@ -24,8 +24,9 @@ module.exports = {
         let image = await QRCode.toBuffer(content)
         const imagex = new AttachmentBuilder(image, { name: "qrcode-by-tadashi.png" })
 
+
         const embed = new EmbedBuilder()
-            .setTitle("QR Code 📷")
+            .setAuthor({ name: "QR Code 📷", url: "https://tadashibot.com/", iconURL: `${client.user.displayAvatarURL()}` })
             .setDescription(`Redirection : \`${content}\``)
             .setImage("attachment://qrcode-by-tadashi.png")
             .setColor(client.color)
