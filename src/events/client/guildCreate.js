@@ -22,6 +22,6 @@ module.exports = {
                 `
             )
 
-        client.users.cache.get("923969347276398653").send({ embeds: [embed] })
+        client.users.cache.get("votre id").send({ embeds: [embed] })
     }
 }
