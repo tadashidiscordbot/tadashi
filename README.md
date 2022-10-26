@@ -28,12 +28,9 @@ Pour toutes questions ou demandes, vous pouvez rejoindre le [serveur discord](ht
 
 ## Installation
 
-Vous avez juste a installer node.js est créer un fichier `.env` et mettre ceci :
+Vous avez juste a installer node.js
 
-```
-TOKEN=token de votre bot
-DATABASE_URI=lien de votre db mongodb (mongo srv)
-```
+Dans le fichier config.json veuillez mettre le token et le database uri mongo db (mongo srv)
 
 Pour installer les modules, veuillez faire cette commande :
 
